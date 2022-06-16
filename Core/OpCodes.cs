@@ -4,6 +4,7 @@
     {
         PUSH, POP,
         ADD, SUB, MUL, DIV,
+        /*==*/CEQ, /*!=*/CNE, /*>*/CGT, /*>=*/CGE, /*<*/CLT, /*<=*/CLE,
         CALL,
     }
 }

@@ -27,6 +27,12 @@ namespace LeaVM
                 case OpCodes.SUB: sub(); break;
                 case OpCodes.MUL: mul(); break;
                 case OpCodes.DIV: div(); break;
+                case OpCodes.CEQ: ceq(); break;
+                case OpCodes.CNE: cne(); break;
+                case OpCodes.CGT: cgt(); break;
+                case OpCodes.CGE: cge(); break;
+                case OpCodes.CLT: clt(); break;
+                case OpCodes.CLE: cle(); break;
                 default: Console.Error.WriteLine($"Unknown Instruction: {op}"); break;
             }
         }
@@ -53,6 +59,12 @@ namespace LeaVM
         private void sub() => binaryOp((l, r) => l.Value - r.Value);
         private void mul() => binaryOp((l, r) => l.Value * r.Value);
         private void div() => binaryOp((l, r) => l.Value / r.Value);
+        private void ceq() => boolBinaryOp((l, r) => l.Value == r.Value);
+        private void cne() => boolBinaryOp((l, r) => l.Value != r.Value);
+        private void cgt() => boolBinaryOp((l, r) => l.Value > r.Value);
+        private void cge() => boolBinaryOp((l, r) => l.Value >= r.Value);
+        private void clt() => boolBinaryOp((l, r) => l.Value < r.Value);
+        private void cle() => boolBinaryOp((l, r) => l.Value <= r.Value);
 
         private void binaryOp(Func<ConstantOperand, ConstantOperand, int> call)
         {
@@ -60,11 +72,20 @@ namespace LeaVM
             var left = stack.Pop();
             if(left is ConstantOperand leftC && right is ConstantOperand rightC)
             {
-                stack.Push(new ConstantOperand(call.Invoke(leftC, rightC)));
+                stack.Push(new ConstantOperand(call(leftC, rightC)));
             } else
             {
                 Console.Error.WriteLine("Executed Add Operation but Operands weren't Constants.");
             }
+        }
+
+        private void boolBinaryOp(Func<ConstantOperand, ConstantOperand, bool> call)
+        {
+            binaryOp((l, r) =>
+            {
+                var result = call(l, r);
+                return result ? 1 : 0;
+            });
         }
     }
 }

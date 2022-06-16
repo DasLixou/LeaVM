@@ -10,6 +10,8 @@ builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(2)));
 builder.Emit(new Instruction(OpCodes.ADD));
 builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(3)));
 builder.Emit(new Instruction(OpCodes.MUL));
+builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(10)));
+builder.Emit(new Instruction(OpCodes.CLT));
 
 var result = builder.AsBytes();
 
