@@ -11,9 +11,10 @@
 
         public override byte[] AsByte()
         {
-            var result = new byte[1 + 4];
-            result[0] = 0b0000001;
-            BitConverter.GetBytes(Value).CopyTo(result, 1);
+            var valueBytes = BitConverter.GetBytes(Value);
+            var result = new byte[1 + valueBytes.Length];
+            result[0] = (byte)valueBytes.Length;
+            valueBytes.CopyTo(result, 1);
             return result;
         }
     }

@@ -10,5 +10,12 @@ namespace LeaVM.Builder
         {
             instructions.Add(instruction);
         }
+
+        public byte[] AsBytes()
+        {
+            var result = new List<byte>();
+            instructions.ForEach(_ => result.AddRange(_.AsBytes()));
+            return result.ToArray();
+        }
     }
 }
