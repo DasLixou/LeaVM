@@ -4,6 +4,11 @@
     {
         public int Address { get; set; }
 
+        public AddressOperand(int address)
+        {
+            Address = address;
+        }
+
         public override byte[] AsByte()
         {
             var result = new byte[1 + 4];
