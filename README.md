@@ -44,3 +44,19 @@ builder.Emit(new Instruction(OpCodes.POP, new AddressOperand(12))); // stores re
 // now generate the bytes
 var bytes = builder.AsBytes();
 ```
+
+## Running ByteCode
+
+```csharp
+// First, import this namespace
+using LeaVM;
+
+// Then create a new runtime instance
+var runtime = new Runtime();
+
+// now put your bytes in the runtime and let it run the instructions
+runtime.Run(bytes) // you can use the bytes from "Create ByteCode"
+
+// I like to make a unused instruction where i can create a breakpoint to see the result of the runtime
+var i = 1; // create a breakpoint here and look up the runtime variable and it's memory and stack
+```
