@@ -40,7 +40,7 @@ builder.Emit(OpCodes.PUSH, 1);
 builder.Emit(OpCodes.ADD);
 
 // you can store values in memory with AddressOperands
-builder.Emit(new Instruction(OpCodes.POP, Operand.Address(12))); // stores result of 1 + 2 in Address(12)
+builder.Emit(OpCodes.POP, Operand.Address(12)); // stores result of 1 + 2 in Address(12)
 // new AddressOperand(12) would also work
 
 // now generate the bytes
