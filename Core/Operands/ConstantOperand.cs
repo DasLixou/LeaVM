@@ -2,11 +2,16 @@
 {
     public class ConstantOperand : Operand
     {
-        public int Value { get; set; }
-
         public ConstantOperand(int value)
         {
             Value = value;
+        }
+
+        public int Value { get; set; }
+
+        public static implicit operator ConstantOperand(int value)
+        {
+            return new ConstantOperand(value);
         }
 
         public override byte[] AsByte()
