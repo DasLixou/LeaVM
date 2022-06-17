@@ -60,5 +60,5 @@ var runtime = new Runtime();
 runtime.Run(bytes) // you can use the bytes from "Create ByteCode"
 
 // I like to make a unused instruction where i can create a breakpoint to see the result of the runtime
-var i = 1; // create a breakpoint here and look up the runtime variable and it's memory and stack
+var i = 1; // create a breakpoint here and look up the runtime variable and its memory and stack
 ```
