@@ -5,13 +5,19 @@ using LeaVM.Core.Operands;
 
 var builder = new LeaBuilder();
 
-builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(1)));
+var counterAddress = new AddressOperand(2);
+var condition = new AddressOperand(1);
+
 builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(2)));
+builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(1)));
 builder.Emit(new Instruction(OpCodes.ADD));
-builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(3)));
-builder.Emit(new Instruction(OpCodes.MUL));
+builder.Emit(new Instruction(OpCodes.PEEK, counterAddress));
 builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(10)));
 builder.Emit(new Instruction(OpCodes.CLT));
+builder.Emit(new Instruction(OpCodes.POP, condition));
+builder.Emit(new Instruction(OpCodes.PUSH, counterAddress));
+builder.Emit(new Instruction(OpCodes.PUSH, condition));
+builder.Emit(new Instruction(OpCodes.JMB, new ConstantOperand(6)));
 
 var result = builder.AsBytes();
 

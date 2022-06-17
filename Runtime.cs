@@ -7,6 +7,7 @@ namespace LeaVM
     {
         public Stack<object> stack = new();
         public int cursor = 0;
+        public object[] memory = new object[64];
 
         public void Run(byte[] bytes)
         {
@@ -23,6 +24,8 @@ namespace LeaVM
             switch (op)
             {
                 case OpCodes.PUSH: push(NextOperand(bytes)); break;
+                case OpCodes.POP: pop(NextOperand(bytes)); break;
+                case OpCodes.PEEK: peek(NextOperand(bytes)); break;
                 case OpCodes.ADD: add(); break;
                 case OpCodes.SUB: sub(); break;
                 case OpCodes.MUL: mul(); break;
@@ -33,7 +36,9 @@ namespace LeaVM
                 case OpCodes.CGE: cge(); break;
                 case OpCodes.CLT: clt(); break;
                 case OpCodes.CLE: cle(); break;
-                default: Console.Error.WriteLine($"Unknown Instruction: {op}"); break;
+                case OpCodes.JMP: jmp(NextOperand(bytes)); break;
+                case OpCodes.JMB: jmb(NextOperand(bytes)); break;
+                default: throw new Exception($"Unknown Instruction: {op}");
             }
         }
 
@@ -46,6 +51,7 @@ namespace LeaVM
             if(length == 0)
             {
                 result = new AddressOperand(BitConverter.ToInt32(bytes, cursor));
+                length = 4;
             } else
             {
                 result = new ConstantOperand(BitConverter.ToInt32(bytes, cursor));
@@ -54,7 +60,38 @@ namespace LeaVM
             return result;
         }
 
-        private void push(Operand operand) => stack.Push(operand);
+        private void push(Operand operand)
+        {
+            if(operand is ConstantOperand cOp)
+            {
+                stack.Push(cOp);
+            } else if(operand is AddressOperand cAd)
+            {
+                stack.Push(memory[cAd.Address]);
+            }
+        }
+
+        private void pop(Operand operand)
+        {
+            if(operand is AddressOperand address)
+            {
+                memory[address.Address] = stack.Pop();
+            } else
+            {
+                Console.Error.WriteLine("Can't pop value into ConstantOperand - use AddressOperand instead.");
+            }
+        }
+        private void peek(Operand operand)
+        {
+            if (operand is AddressOperand address)
+            {
+                memory[address.Address] = stack.Peek();
+            }
+            else
+            {
+                Console.Error.WriteLine("Can't pop value into ConstantOperand - use AddressOperand instead.");
+            }
+        }
         private void add() => binaryOp((l, r) => l.Value + r.Value);
         private void sub() => binaryOp((l, r) => l.Value - r.Value);
         private void mul() => binaryOp((l, r) => l.Value * r.Value);
@@ -65,6 +102,28 @@ namespace LeaVM
         private void cge() => boolBinaryOp((l, r) => l.Value >= r.Value);
         private void clt() => boolBinaryOp((l, r) => l.Value < r.Value);
         private void cle() => boolBinaryOp((l, r) => l.Value <= r.Value);
+        private void jmp(Operand operand)
+        {
+            if(operand is ConstantOperand cop)
+            {
+                cursor = cop.Value;
+            } else
+            {
+                Console.Error.WriteLine("Can't jump to value from AddressOperand - use ConstantOperand instead.");
+            }
+        }
+        private void jmb(Operand operand)
+        {
+            if (operand is ConstantOperand cop)
+            {
+                var value = ((ConstantOperand)stack.Pop()).Value == 1 ? true : false;
+                if(value) cursor = cop.Value;
+            }
+            else
+            {
+                Console.Error.WriteLine("Can't jump to value from AddressOperand - use ConstantOperand instead.");
+            }
+        }
 
         private void binaryOp(Func<ConstantOperand, ConstantOperand, int> call)
         {
