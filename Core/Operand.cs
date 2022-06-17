@@ -9,6 +9,9 @@ namespace LeaVM.Core
             return new ConstantOperand(value);
         }
 
+        public static ConstantOperand Constant(int value) => new ConstantOperand(value);
+        public static AddressOperand Address(int value) => new AddressOperand(value);
+
         public abstract byte[] AsByte();
     }
 }

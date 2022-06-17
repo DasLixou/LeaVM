@@ -9,7 +9,7 @@ var counterAddress = new AddressOperand(2);
 var condition = new AddressOperand(1);
 
 builder.Emit(OpCodes.PUSH, 2);
-builder.Emit(OpCodes.PUSH, 1);
+builder.Emit(OpCodes.PUSH, Operand.Constant(1));
 builder.Emit(OpCodes.ADD);
 builder.Emit(OpCodes.PEEK, counterAddress);
 builder.Emit(OpCodes.PUSH, 10);
