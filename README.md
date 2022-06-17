@@ -19,3 +19,25 @@
 |`CLE` |                       |Compares `<=`, pushes 1 when stackvalue is smaller/equals then other, else 0  |
 |`JMP` |`Constant`             |Jumps to the byte of the constant                                             |
 |`JMB` |`Constant`             |Only jumps to the byte of the constant when the last value from stack is 1    |
+
+## Create ByteCode
+
+```csharp
+// First, import these namespaces
+using LeaVM.Builder;
+using LeaVM.Core;
+using LeaVM.Core.Operands;
+
+// Then create a LeaBuilder
+var builder = new LeaBuilder();
+
+// now you can create instructions like this
+builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(2)));
+builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(1)));
+
+// different instructions need different amounts and types of operands
+builder.Emit(new Instruction(OpCodes.ADD));
+
+// you can store values in memory with AddressOperands
+builder.Emit(new Instruction(OpCodes.POP, new AddressOperand(12))); // stores result of 1 + 2 in Address(12)
+```
