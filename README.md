@@ -17,6 +17,13 @@
 |`CGE` |                       |Compares `>=`, pushes 1 when stackvalue is greater/equals then other, else 0  |
 |`CLT` |                       |Compares `<`, pushes 1 when stackvalue is smaller then other, else 0          |
 |`CLE` |                       |Compares `<=`, pushes 1 when stackvalue is smaller/equals then other, else 0  |
+|`AND` |                       |Bitwise AND                                                                   |
+|`OR`  |                       |Bitwise OR                                                                    |
+|`XOR` |                       |Bitwise XOR                                                                   |
+|`NOT` |                       |Bitwise NOT                                                                   |
+|`NAND`|                       |Bitwise NAND                                                                  |
+|`NOR` |                       |Bitwise NOR                                                                   |
+|`XNOR`|                       |Bitwise XNOR                                                                  |
 |`JMP` |`Constant`             |Jumps to the byte of the constant                                             |
 |`JMB` |`Constant`             |Only jumps to the byte of the constant when the last value from stack is 1    |
 
