@@ -1,7 +1,7 @@
-﻿using LeaVM;
-using LeaVM.Builder;
+﻿using LeaVM.Builder;
 using LeaVM.Core;
 using LeaVM.Core.Operands;
+using LeaVM.Runtime;
 
 var builder = new LeaBuilder();
 

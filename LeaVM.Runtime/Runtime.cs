@@ -1,7 +1,7 @@
 ﻿using LeaVM.Core;
 using LeaVM.Core.Operands;
 
-namespace LeaVM
+namespace LeaVM.Runtime
 {
     public class Runtime
     {

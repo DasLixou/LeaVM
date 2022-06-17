@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LeaVM.Builder\LeaVM.Builder.csproj" />
+    <ProjectReference Include="..\LeaVM.Runtime\LeaVM.Runtime.csproj" />
+  </ItemGroup>
+
 </Project>
