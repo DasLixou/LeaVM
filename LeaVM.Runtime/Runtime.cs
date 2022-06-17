@@ -113,22 +113,9 @@ namespace LeaVM.Runtime
         private void or() => binaryOp((l, r) => l.Value | r.Value);
         private void xor() => binaryOp((l, r) => l.Value ^ r.Value);
         private void not() => unaryOp(element => ~element.Value);
-        private void nand()
-        {
-            and();
-            not();
-        }
-        private void nor()
-        {
-            or();
-            not();
-        }
-
-        private void xnor()
-        {
-            xor();
-            not();
-        }
+        private void nand() { and(); not(); }
+        private void nor() { or(); not(); }
+        private void xnor() { xor(); not(); }
         private void jmp(Operand operand)
         {
             if(operand is ConstantOperand cop)
