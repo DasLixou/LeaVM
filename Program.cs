@@ -8,16 +8,16 @@ var builder = new LeaBuilder();
 var counterAddress = new AddressOperand(2);
 var condition = new AddressOperand(1);
 
-builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(2)));
-builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(1)));
-builder.Emit(new Instruction(OpCodes.ADD));
-builder.Emit(new Instruction(OpCodes.PEEK, counterAddress));
-builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(10)));
-builder.Emit(new Instruction(OpCodes.CLT));
-builder.Emit(new Instruction(OpCodes.POP, condition));
-builder.Emit(new Instruction(OpCodes.PUSH, counterAddress));
-builder.Emit(new Instruction(OpCodes.PUSH, condition));
-builder.Emit(new Instruction(OpCodes.JMB, new ConstantOperand(6)));
+builder.Emit(OpCodes.PUSH, 2);
+builder.Emit(OpCodes.PUSH, 1);
+builder.Emit(OpCodes.ADD);
+builder.Emit(OpCodes.PEEK, counterAddress);
+builder.Emit(OpCodes.PUSH, 10);
+builder.Emit(OpCodes.CLT);
+builder.Emit(OpCodes.POP, condition);
+builder.Emit(OpCodes.PUSH, counterAddress);
+builder.Emit(OpCodes.PUSH, condition);
+builder.Emit(OpCodes.JMB, 6);
 
 var result = builder.AsBytes();
 
