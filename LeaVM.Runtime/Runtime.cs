@@ -36,6 +36,13 @@ namespace LeaVM.Runtime
                 case OpCodes.CGE: cge(); break;
                 case OpCodes.CLT: clt(); break;
                 case OpCodes.CLE: cle(); break;
+                case OpCodes.AND: and(); break;
+                case OpCodes.OR: or(); break;
+                case OpCodes.XOR: xor(); break;
+                case OpCodes.NOT: not(); break;
+                case OpCodes.NAND: nand(); break;
+                case OpCodes.NOR: nor(); break;
+                case OpCodes.XNOR: xnor(); break;
                 case OpCodes.JMP: jmp(NextOperand(bytes)); break;
                 case OpCodes.JMB: jmb(NextOperand(bytes)); break;
                 default: throw new Exception($"Unknown Instruction: {op}");
@@ -102,6 +109,26 @@ namespace LeaVM.Runtime
         private void cge() => boolBinaryOp((l, r) => l.Value >= r.Value);
         private void clt() => boolBinaryOp((l, r) => l.Value < r.Value);
         private void cle() => boolBinaryOp((l, r) => l.Value <= r.Value);
+        private void and() => binaryOp((l, r) => l.Value & r.Value);
+        private void or() => binaryOp((l, r) => l.Value | r.Value);
+        private void xor() => binaryOp((l, r) => l.Value ^ r.Value);
+        private void not() => unaryOp(element => ~element.Value);
+        private void nand()
+        {
+            and();
+            not();
+        }
+        private void nor()
+        {
+            or();
+            not();
+        }
+
+        private void xnor()
+        {
+            xor();
+            not();
+        }
         private void jmp(Operand operand)
         {
             if(operand is ConstantOperand cop)
@@ -125,6 +152,19 @@ namespace LeaVM.Runtime
             }
         }
 
+        private void unaryOp(Func<ConstantOperand, int> call)
+        {
+            var element = stack.Pop();
+            if (element is ConstantOperand elementC)
+            {
+                stack.Push(new ConstantOperand(call(elementC)));
+            }
+            else
+            {
+                Console.Error.WriteLine("Executed Unary Operation but Operands weren't Constants.");
+            }
+        }
+
         private void binaryOp(Func<ConstantOperand, ConstantOperand, int> call)
         {
             var right = stack.Pop();
@@ -134,7 +174,7 @@ namespace LeaVM.Runtime
                 stack.Push(new ConstantOperand(call(leftC, rightC)));
             } else
             {
-                Console.Error.WriteLine("Executed Add Operation but Operands weren't Constants.");
+                Console.Error.WriteLine("Executed Binary Operation but Operands weren't Constants.");
             }
         }
 
