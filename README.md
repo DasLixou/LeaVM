@@ -33,13 +33,15 @@ var builder = new LeaBuilder();
 
 // now you can create instructions like this
 builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(2)));
-builder.Emit(new Instruction(OpCodes.PUSH, new ConstantOperand(1)));
+// you can also make emit little bit more readable
+builder.Emit(OpCodes.PUSH, 1);
 
 // different instructions need different amounts and types of operands
-builder.Emit(new Instruction(OpCodes.ADD));
+builder.Emit(OpCodes.ADD);
 
 // you can store values in memory with AddressOperands
-builder.Emit(new Instruction(OpCodes.POP, new AddressOperand(12))); // stores result of 1 + 2 in Address(12)
+builder.Emit(OpCodes.POP, Operand.Address(12)); // stores result of 1 + 2 in Address(12)
+// new AddressOperand(12) would also work
 
 // now generate the bytes
 var bytes = builder.AsBytes();
