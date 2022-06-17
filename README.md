@@ -51,7 +51,7 @@ var bytes = builder.AsBytes();
 
 ```csharp
 // First, import this namespace
-using LeaVM;
+using LeaVM.Runtime;
 
 // Then create a new runtime instance
 var runtime = new Runtime();
