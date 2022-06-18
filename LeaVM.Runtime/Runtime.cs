@@ -61,7 +61,7 @@ namespace LeaVM.Runtime
                 length = 4;
             } else
             {
-                result = new ConstantOperand(BitConverter.ToInt32(bytes, cursor));
+                result = new ConstantOperand(new LeaValue(new ReadOnlySpan<byte>(bytes, cursor, length)));
             }
             cursor += length;
             return result;
@@ -99,20 +99,20 @@ namespace LeaVM.Runtime
                 Console.Error.WriteLine("Can't pop value into ConstantOperand - use AddressOperand instead.");
             }
         }
-        private void add() => binaryOp((l, r) => l.Value + r.Value);
-        private void sub() => binaryOp((l, r) => l.Value - r.Value);
-        private void mul() => binaryOp((l, r) => l.Value * r.Value);
-        private void div() => binaryOp((l, r) => l.Value / r.Value);
-        private void ceq() => boolBinaryOp((l, r) => l.Value == r.Value);
-        private void cne() => boolBinaryOp((l, r) => l.Value != r.Value);
-        private void cgt() => boolBinaryOp((l, r) => l.Value > r.Value);
-        private void cge() => boolBinaryOp((l, r) => l.Value >= r.Value);
-        private void clt() => boolBinaryOp((l, r) => l.Value < r.Value);
-        private void cle() => boolBinaryOp((l, r) => l.Value <= r.Value);
-        private void and() => binaryOp((l, r) => l.Value & r.Value);
-        private void or() => binaryOp((l, r) => l.Value | r.Value);
-        private void xor() => binaryOp((l, r) => l.Value ^ r.Value);
-        private void not() => unaryOp(element => ~element.Value);
+        private void add() => binaryOp((l, r) => l.Value.Value + r.Value.Value);
+        private void sub() => binaryOp((l, r) => l.Value.Value - r.Value.Value);
+        private void mul() => binaryOp((l, r) => l.Value.Value * r.Value.Value);
+        private void div() => binaryOp((l, r) => l.Value.Value / r.Value.Value);
+        private void ceq() => boolBinaryOp((l, r) => l.Value.Value == r.Value.Value);
+        private void cne() => boolBinaryOp((l, r) => l.Value.Value != r.Value.Value);
+        private void cgt() => boolBinaryOp((l, r) => l.Value.Value > r.Value.Value);
+        private void cge() => boolBinaryOp((l, r) => l.Value.Value >= r.Value.Value);
+        private void clt() => boolBinaryOp((l, r) => l.Value.Value < r.Value.Value);
+        private void cle() => boolBinaryOp((l, r) => l.Value.Value <= r.Value.Value);
+        private void and() => binaryOp((l, r) => l.Value.Value & r.Value.Value);
+        private void or() => binaryOp((l, r) => l.Value.Value | r.Value.Value);
+        private void xor() => binaryOp((l, r) => l.Value.Value ^ r.Value.Value);
+        private void not() => unaryOp(element => ~element.Value.Value);
         private void nand() { and(); not(); }
         private void nor() { or(); not(); }
         private void xnor() { xor(); not(); }
@@ -120,7 +120,7 @@ namespace LeaVM.Runtime
         {
             if(operand is ConstantOperand cop)
             {
-                cursor = cop.Value;
+                cursor = cop.Value.Value;
             } else
             {
                 Console.Error.WriteLine("Can't jump to value from AddressOperand - use ConstantOperand instead.");
@@ -130,8 +130,8 @@ namespace LeaVM.Runtime
         {
             if (operand is ConstantOperand cop)
             {
-                var value = ((ConstantOperand)stack.Pop()).Value == 1 ? true : false;
-                if(value) cursor = cop.Value;
+                var value = ((ConstantOperand)stack.Pop()).Value.Value == 1 ? true : false;
+                if(value) cursor = cop.Value.Value;
             }
             else
             {
@@ -144,7 +144,7 @@ namespace LeaVM.Runtime
             var element = stack.Pop();
             if (element is ConstantOperand elementC)
             {
-                stack.Push(new ConstantOperand(call(elementC)));
+                stack.Push(new ConstantOperand(new LeaValue(call(elementC))));
             }
             else
             {
@@ -158,7 +158,7 @@ namespace LeaVM.Runtime
             var left = stack.Pop();
             if(left is ConstantOperand leftC && right is ConstantOperand rightC)
             {
-                stack.Push(new ConstantOperand(call(leftC, rightC)));
+                stack.Push(new ConstantOperand(new LeaValue(call(leftC, rightC))));
             } else
             {
                 Console.Error.WriteLine("Executed Binary Operation but Operands weren't Constants.");

@@ -2,12 +2,17 @@
 {
     public class ConstantOperand : Operand
     {
-        public ConstantOperand(int value)
+        public ConstantOperand(LeaValue value)
         {
             Value = value;
         }
 
-        public int Value { get; set; }
+        public LeaValue Value { get; set; }
+
+        public static implicit operator ConstantOperand(LeaValue value)
+        {
+            return new ConstantOperand(value);
+        }
 
         public static implicit operator ConstantOperand(int value)
         {
@@ -16,7 +21,7 @@
 
         public override byte[] AsByte()
         {
-            var valueBytes = BitConverter.GetBytes(Value);
+            var valueBytes = Value.GetBytes();
             var result = new byte[1 + valueBytes.Length];
             result[0] = (byte)valueBytes.Length;
             valueBytes.CopyTo(result, 1);
