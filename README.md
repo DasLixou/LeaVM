@@ -13,10 +13,10 @@
 |`DIV` |                       |Divides the last to values from the stack and pushes the result               |
 |`CEQ` |                       |Compares `==`, pushes 1 when 2 stackvalues equals, else 0                     |
 |`CNE` |                       |Compares `!=`, pushes 1 when 2 stackvalues not equals, else 0                 |
-|`CGT` |                       |Compares `>`, pushes 1 when stackvalue is greater then other, else 0          |
-|`CGE` |                       |Compares `>=`, pushes 1 when stackvalue is greater/equals then other, else 0  |
-|`CLT` |                       |Compares `<`, pushes 1 when stackvalue is smaller then other, else 0          |
-|`CLE` |                       |Compares `<=`, pushes 1 when stackvalue is smaller/equals then other, else 0  |
+|`CGT` |                       |Compares `>`, pushes 1 when stackvalue is greater than other, else 0          |
+|`CGE` |                       |Compares `>=`, pushes 1 when stackvalue is greater/equals than other, else 0  |
+|`CLT` |                       |Compares `<`, pushes 1 when stackvalue is smaller than other, else 0          |
+|`CLE` |                       |Compares `<=`, pushes 1 when stackvalue is smaller/equals than other, else 0  |
 |`AND` |                       |Bitwise AND                                                                   |
 |`OR`  |                       |Bitwise OR                                                                    |
 |`XOR` |                       |Bitwise XOR                                                                   |
