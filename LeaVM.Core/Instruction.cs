@@ -23,5 +23,17 @@
 
             return result.ToArray();
         }
+
+        public override string? ToString()
+        {
+            var result = $"{OpCode}";
+            if(Operands.Any())
+            {
+                result += " ";
+                foreach (Operand operand in Operands) result += operand.ToString() + ", ";
+                result = result.Substring(0, result.Length - 2);
+            }
+            return result;
+        }
     }
 }

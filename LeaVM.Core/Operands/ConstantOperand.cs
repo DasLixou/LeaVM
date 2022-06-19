@@ -27,5 +27,10 @@
             valueBytes.CopyTo(result, 1);
             return result;
         }
+
+        public override string? ToString()
+        {
+            return $"!{Value}";
+        }
     }
 }
